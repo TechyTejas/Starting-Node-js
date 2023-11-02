@@ -1,42 +1,8 @@
 const http = require('http');
-const fs = require('fs'); //fs allows us to work with file system
-const { parse } = require('path');
+const routes = require('./routes')
+const { parse } = require('path'); //. It is used to break down a file path or URL into its individual components, such as the directory, file name, and file extension.
 
-const server = http.createServer((req, res) => {
-  const url = req.url;
-  const method = req.method;
-  if (url === '/') {
-    res.write('<html>')
-    res.write('<head><title>Enter message</title><head>')
-    res.write('<body><form action="/message" method="POST"><input type="text" name="message"</body><button type="Submit">submit</button></form></body>')
-    res.write('</html>') ;
-    return res.end(); 
- }
- if(url==='/message' && method==='POST'){
-    const body = [];
-    req.on("data",(chunk)=>{
-         body.push(chunk)
-    }) //on method allows to listen to certain event
-    return req.on('end',()=>{
-        const parseBody = Buffer.concat(body).toString();
-        const message = parseBody.split('=')[1];
-        fs.writeFile ('message.txt', message, ()=>{
-            res.statusCode = 302;
-            res.setHeader('Location','/')
-            return res.end();
-        });
-        console.log(parseBody)
-       
-    })
-}
-  
-  res.setHeader('Content-Type', 'text/html');
-  res.write('<html>')
-  res.write('<head><title>My First Page</title><head>')
-  res.write('<body><h1>Hello from my NODE JS Server!</h1></body>')
-  res.write('</html>')
-  res.end();
-  
-});
+const server = http.createServer(routes);
 
-server.listen(4000);
+server.listen(4000); //server.listen(4000) is used to start a Node.js server and make it listen for incoming network connections 
+                     //on a specified port. In this case, the server is set to listen on port 4000.
