@@ -1,9 +1,12 @@
  
 const express = require('express')
 const bodyparser=require('body-parser')
+const path = require('path')
 
 const adminroutes = require('./Routes/admin.js')
 const shoproutes = require('./Routes/shop.js')
+const contactus = require('./Routes/contact.js')
+const success = require('./Routes/success.js')
  
 // const { parse } = require('path'); //. It is used to break down a file path or URL into its individual components, such as the directory, file name, and file extension.
 
@@ -18,11 +21,13 @@ const app = express()
 
 app.use(bodyparser.urlencoded({extended: false}))
 
-app.use('/admin',adminroutes)
-app.use('/shop',shoproutes)
+app.use('/',adminroutes)
+app.use('/',shoproutes)
+app.use('/',contactus)
+app.use('/',success)
 
 app.use((req,res,next)=>{
-    res.status(404).send('<h1>page not found</h1>')
+    res.status(404).sendFile(path.join(__dirname,'views',"404.html"))
 })
 
 
