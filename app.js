@@ -12,6 +12,9 @@ const success = require('./Routes/success.js')
 
 const app = express()
 
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'))
+
 // app.use((req, res, next)=>{
 //   console.log("in the middleware")
 //   next();  // this allows the request to continue to the next middleware line 
